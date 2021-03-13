@@ -21,7 +21,7 @@ export default function Grid({ data }) {
     return (
         <GridMaterial container spacing={2}>
             {data && data.map((starship, index) => {
-                return <Link href={`/starship/${starship.url.substr(starship.url.length - 2, 1)}/starship`} key={index}>
+                return <Link href={`/starship/${starship.url.split('/')[5]}/starship`} key={index}>
                     <GridMaterial item xs={12} sm={6}>
                         <Paper className={classes.paper}>
                             <Typography variant="h5">{starship.name}</Typography>

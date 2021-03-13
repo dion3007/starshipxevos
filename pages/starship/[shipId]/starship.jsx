@@ -30,7 +30,7 @@ export default function starship({ starships }) {
 export async function getStaticPaths() {
     const starships = await getAllStarships()
     const paths = starships.results.map((starship) => ({
-        params: { shipId: String(starship.url.substr(starship.url.length - 2, 1)) },
+        params: { shipId: String(starship.url.split('/')[5]) },
     }))
 
     return { paths, fallback: false }
