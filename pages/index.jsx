@@ -1,6 +1,6 @@
 import React from 'react'
 import Head from 'next/head'
-import { Button, Container } from '@material-ui/core'
+import { Button, Container, Paper, TextField } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import axios from 'axios'
 import { getAllStarships } from '../helper/api'
@@ -23,6 +23,7 @@ export default function Home({ starships }) {
   const classes = useStyles()
   const [objStarship, setObjStarship] = React.useState(starships)
   const [arrStarship, setArrStarship] = React.useState(starships.results)
+  const [field, setField] = React.useState("")
   const loadMoreStarships = async ({ page }) => {
     if (page !== null) {
       const starship = await axios.get(`${constant.BASE_URL}/starships/?${page.next.split('?').pop()}`)
@@ -35,6 +36,14 @@ export default function Home({ starships }) {
     setObjStarship(starship.data)
     setArrStarship(starship.data.results)
   }
+
+  const handleAddStarship = (params) => {
+    const objShip = {
+      name: params,
+      url: 'test/test/test'
+    }
+    arrStarship.unshift(objShip)
+  }
   return (
     <div>
       <Head>
@@ -43,6 +52,10 @@ export default function Home({ starships }) {
       </Head>
       <Header searchStarship={searchStarship} noSearch={false} />
       <Container className={classes.main}>
+        <Paper>
+          <TextField value={field} onChange={(e) => setField(e.target.value)} placeholder="add starships" />
+          <Button onClick={() => handleAddStarship(field)}>Submit</Button>
+        </Paper>
         <Grid data={arrStarship} />
         {objStarship.next !== null && <Button
           className={classes.button}
